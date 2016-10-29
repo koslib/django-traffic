@@ -31,6 +31,9 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
       'django-traffic.middleware.ESTrafficInfoMiddleware',
   )
   ```
+
+  The middleware is created in a way that supports both `MIDDLEWARE_CLASSES` on Django older versions and `MIDDLEWARE` in latest Django versions.
+
 # Configuration
 There are some variables required in your `settings.py` file to function normally.
 - `TRAFFIC_INDEX_NAME`: this is the name of the index that will be used in ElasticSearch.
