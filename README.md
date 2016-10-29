@@ -11,23 +11,23 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
   **1. Install using pip:**
   .. code-block:: console
 
-    pip install django-traffic
+  pip install django-traffic
   ** 2. Include "django-traffic" in your INSTALLED_APPS:**
   .. code-block: python
 
-    INSTALLED_APPS = [
-        ...
-        'django-traffic',
-    ]
+  INSTALLED_APPS = [
+      ...
+      'django-traffic',
+  ]
 
   **3. Include "ESTrafficInfoMiddleware" to your MIDDLEWARE_CLASSES:**
 
   .. code-block:: python
 
-    MIDDLEWARE_CLASSES = (
-        ...
-        'django-traffic.middleware.ESTrafficInfoMiddleware',
-    )
+  MIDDLEWARE_CLASSES = (
+      ...
+      'django-traffic.middleware.ESTrafficInfoMiddleware',
+  )
 # Configuration
 There are some variables required in your `settings.py` file to function normally.
 - `TRAFFIC_INDEX_NAME`: this is the name of the index that will be used in ElasticSearch.
