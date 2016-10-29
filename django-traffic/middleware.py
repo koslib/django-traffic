@@ -20,6 +20,7 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
             self.index_name = settings.TRAFFIC_INDEX_NAME
         else:
             self.index_name = "django-traffic"
+
         self.geo_db_path = settings.GEO_DB_PATH
 
         if settings.ES_CLIENT:
