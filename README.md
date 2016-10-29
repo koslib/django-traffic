@@ -14,6 +14,7 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
     pip install django-traffic
   ** 2. Include "django-traffic" in your INSTALLED_APPS:**
   .. code-block: python
+
     INSTALLED_APPS = [
         ...
         'django-traffic',
