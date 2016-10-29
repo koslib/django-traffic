@@ -9,11 +9,10 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
 
 # Quick Start
   **1. Install using pip:**
-  .. code-block:: console
 
   pip install django-traffic
+
   ** 2. Include "django-traffic" in your INSTALLED_APPS:**
-  .. code-block: python
 
   INSTALLED_APPS = [
       ...
@@ -21,8 +20,6 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
   ]
 
   **3. Include "ESTrafficInfoMiddleware" to your MIDDLEWARE_CLASSES:**
-
-  .. code-block:: python
 
   MIDDLEWARE_CLASSES = (
       ...
