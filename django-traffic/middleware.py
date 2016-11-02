@@ -4,6 +4,7 @@
 
 import logging
 
+import django
 from django.conf import settings
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
@@ -55,6 +56,30 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
                             },
                             "location": {
                                 "type": "geo_point"
+                            },
+                            "method": {
+                                "type": "string"
+                            },
+                            "body": {
+                                "type": "string"
+                            },
+                            "path": {
+                                "type": "string"
+                            },
+                            "path_info": {
+                                "type": "string"
+                            },
+                            "scheme": {
+                                "type": "string"
+                            },
+                            "encoding": {
+                                "type": "string"
+                            },
+                            "encoding_type": {
+                                "type": "string"
+                            },
+                            "ip_addr": {
+                                "type": "ip"
                             }
                         }
                     }
@@ -75,12 +100,20 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
             return
 
         doc = {
-            'timestamp': timezone.now(),
+            "timestamp": timezone.now(),
             "text": "django-traffic geo-point object",
             "location": {
                 "lat": lat,
                 "lon": lng
-            }
+            },
+            "method": request.method,
+            "body": request.body,
+            "path": request.path,
+            "path_info": request.path_info,
+            "scheme": request.scheme,
+            "encoding": request.encoding,
+            "encoding_type": request.encoding_type if django.get_version() > '1.10' else '',
+            "ip_addr": device_ip
         }
 
         res = self.es.index(index=self.index_name, doc_type='request-info', body=doc)

@@ -3,7 +3,18 @@ A Django middleware that helps visualize your app's traffic in Kibana
 
 In a nutshell, by using this middleware you need no more effort to stream your app's traffic in your
 ElasticSearch host(s) and use Kibana for visualizations around it.
-The first version of this lib handles map tiles in Kibana, so you can see on the map where's your traffic coming from.
+
+Request information transmitted to ElasticSearch:
+- `timestamp` | type: `date`
+- `location` | type: `geo_point`
+- `method` | type: `string`
+- `body` | type: `string`
+- `path` | type: `string`
+- `path_info` | type: `string`
+- `scheme` | type: `string`
+- `encoding` | type: `string`
+- `encoding_type` | type: `string`, supported only in `Django 1.10` and later
+- `ip` | type: `ip`
 
 Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, included in Django 1.9 and latter.
 
