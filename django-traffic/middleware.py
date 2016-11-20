@@ -38,6 +38,20 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
         self.es_upstream(request)
         return None
 
+    def ip_to_cordinates(self, device_ip):
+        if self.geo_db_path is None:
+            # assume the user has set GEOIP_PATH in settings.py
+            g = GeoIP2()
+        else:
+            g = GeoIP2(path=self.geo_db_path)
+        try:
+            lat, lng = g.lat_lon(device_ip)
+        except Exception as e:
+            logging.error("[django-traffic] Error while getting lan/lon from GEOIP2: %s " % e)
+            return None, None
+        else:
+            return lat, lng
+
     def es_upstream(self, request):
         device_ip = request.META.get('HTTP_X_FORWARDED_FOR') or request.META.get('REMOTE_ADDR')
         device_ip = str(device_ip).split(',')[0]
@@ -88,33 +102,28 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
             logging.info("[django-traffic] Creating new elasticsearch indice...")
             self.es.indices.create(index=self.index_name, body=mapping)
 
-        if self.geo_db_path is None:
-            # assume the user has set GEOIP_PATH in settings.py
-            g = GeoIP2()
-        else:
-            g = GeoIP2(path=self.geo_db_path)
-        try:
-            lat, lng = g.lat_lon(device_ip)
-        except Exception as e:
-            logging.error("[django-traffic] Error while getting lan/lon from GEOIP2: %s " % e)
-            return
-
         doc = {
             "timestamp": timezone.now(),
             "text": "django-traffic geo-point object",
-            "location": {
-                "lat": lat,
-                "lon": lng
-            },
             "method": request.method,
             "body": request.body,
             "path": request.path,
             "path_info": request.path_info,
             "scheme": request.scheme,
             "encoding": request.encoding,
-            "encoding_type": request.encoding_type if django.get_version() > '1.10' else '',
+            "encoding_type": getattr(request, 'encoding_type', ''),
             "ip_addr": device_ip
         }
+
+        lat, lng = self.ip_to_cordinates(device_ip)
+        if lat and lng:
+            doc["location"] = {
+                "lat": lat,
+                "lon": lng
+            }
+        else:
+            if not getattr(settings, 'LOG_WITHOUT_LOCATION', False):
+                return
 
         res = self.es.index(index=self.index_name, doc_type='request-info', body=doc)
         if res['created']:

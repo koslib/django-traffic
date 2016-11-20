@@ -58,6 +58,8 @@ There are some variables required in your `settings.py` file to function normall
 - `GEO_DB_PATH`: if you don't have `GEOIP_PATH` already defined, you need to define the path where django can find your
 geolocation database.
 
+- `LOG_WITHOUT_LOCATION`: (default `False`) log data even when `ip` cannot be translated to `location`
+
 After you deploy your project or locally run your django server, requests and traffic to your web app will be sent to
 the ElasticSearch hosts defined. Practically you are ready to create a Kibana map-tile visualization and start watching
 where traffic is flooding you in.
