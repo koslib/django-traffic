@@ -95,7 +95,7 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
             g = GeoIP2(path=self.geo_db_path)
         try:
             lat, lng = g.lat_lon(device_ip)
-        except Exception, e:
+        except Exception as e:
             logging.error("[django-traffic] Error while getting lan/lon from GEOIP2: %s " % e)
             return
 
