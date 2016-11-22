@@ -4,7 +4,6 @@
 
 import logging
 
-import django
 from django.conf import settings
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
