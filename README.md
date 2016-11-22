@@ -30,7 +30,7 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
   ```
   INSTALLED_APPS = [
       ...
-      'django-traffic',
+      'django_traffic',
   ]
   ```
 
@@ -39,7 +39,7 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
   ```
   MIDDLEWARE_CLASSES = (
       ...
-      'django-traffic.middleware.ESTrafficInfoMiddleware',
+      'django_traffic.middleware.ESTrafficInfoMiddleware',
   )
   ```
 
