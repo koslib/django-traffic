@@ -24,6 +24,11 @@ Geolocation is achieved by using `django.contrib.gis.geoip2.GeoIP2` wrapper, inc
   ```
   pip install django-traffic
   ```
+  To install the latest version directly from GitHub:
+  
+  ```
+  pip install git+https://github.com/koslibpro/django-traffic
+  ```
 
   **2. Include "django-traffic" in your INSTALLED_APPS:**
 
