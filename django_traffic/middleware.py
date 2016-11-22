@@ -12,18 +12,27 @@ from django.contrib.gis.geoip2 import GeoIP2
 from elasticsearch import Elasticsearch
 
 
+def _load_geo_db():
+    geo_db_path = getattr(settings, 'GEO_DB_PATH', None)
+    if geo_db_path is None:
+        # assume the user has set GEOIP_PATH in settings.py
+        g = GeoIP2()
+    else:
+        g = GeoIP2(path=geo_db_path)
+    return g
+
+
 class ESTrafficInfoMiddleware(MiddlewareMixin):
     def __init__(self, get_response=None):
         self.get_response = get_response
 
-        if settings.TRAFFIC_INDEX_NAME:
-            self.index_name = settings.TRAFFIC_INDEX_NAME
+        if hasattr(settings, 'TRAFFIC_INDEX_NAME'):
+            self.index_name = getattr(settings, 'TRAFFIC_INDEX_NAME')
         else:
             self.index_name = "django-traffic"
 
-        self.geo_db_path = settings.GEO_DB_PATH
-
-        if settings.ES_CLIENT:
+        # if settings.ES_CLIENT:
+        if hasattr(settings, 'ES_CLIENT'):
             self.es = settings.ES_CLIENT
         else:
             assert settings.ES_HOST, 'ES_HOST definition in settings.py is required'
@@ -38,11 +47,7 @@ class ESTrafficInfoMiddleware(MiddlewareMixin):
         return None
 
     def ip_to_cordinates(self, device_ip):
-        if self.geo_db_path is None:
-            # assume the user has set GEOIP_PATH in settings.py
-            g = GeoIP2()
-        else:
-            g = GeoIP2(path=self.geo_db_path)
+        g = _load_geo_db()
         try:
             lat, lng = g.lat_lon(device_ip)
         except Exception as e:
