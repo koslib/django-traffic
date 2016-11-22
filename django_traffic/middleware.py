@@ -15,11 +15,12 @@ from elasticsearch import Elasticsearch
 def _load_geo_db():
     geo_db_path = getattr(settings, 'GEO_DB_PATH', None)
     if geo_db_path is None:
-        # assume the user has set GEOIP_PATH in settings.py
-        g = GeoIP2()
-    else:
-        g = GeoIP2(path=geo_db_path)
-    return g
+        if hasattr(settings, 'GEOIP_PATH'):
+            g = GeoIP2()
+            return g
+        logging.error('[django-traffic] GEOIP_PATH or GEO_DB_PATH should be present in settings.py')
+        return None
+    return GeoIP2(path=geo_db_path)
 
 
 class ESTrafficInfoMiddleware(MiddlewareMixin):
