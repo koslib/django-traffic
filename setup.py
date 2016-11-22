@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='django-traffic',
-    packages=['django-traffic'],
+    packages=['django_traffic'],
     version='1.0.0',
     description='Django middleware that helps visualize your app\'s traffic in Kibana',
     author='Konstantinos Livieratos',
