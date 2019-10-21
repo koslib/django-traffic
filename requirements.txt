@@ -3,6 +3,6 @@ elasticsearch==5.0.0
 geoip2>=2.3.0
 ipaddress==1.0.17
 maxminddb>=1.2.1
-requests==2.11.1
+requests==2.20.0
 urllib3==1.24.2
 wheel==0.24.0
