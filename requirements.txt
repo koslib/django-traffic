@@ -4,5 +4,5 @@ geoip2>=2.3.0
 ipaddress==1.0.17
 maxminddb>=1.2.1
 requests==2.32.2
-urllib3==1.26.5
+urllib3==1.26.19
 wheel==0.38.1
