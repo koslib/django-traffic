@@ -5,4 +5,4 @@ ipaddress==1.0.17
 maxminddb>=1.2.1
 requests==2.32.2
 urllib3==1.26.5
-wheel==0.38.1
+wheel==0.46.2
